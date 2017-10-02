@@ -12,6 +12,7 @@ def cdf(data,
         figureSize=(3,3), 
         cmap="Blues", steps=100,
         xlim=None, ylim=None,
+        xscale="linear", yscale="linear",
         ):
     """
     description:
@@ -34,6 +35,8 @@ def cdf(data,
             among given datas.
         steps:      Int
             Number of data points plotted on figure.
+        x/yscale:   specify axis types
+            valid options = [“linear”, “log”, “symlog”, “logit”]
     returns:
         fig:        Matplotlib figure instance 
             A figure instance is returned for futher tweaking if necessary
@@ -73,8 +76,8 @@ def cdf(data,
                    bottom='on', left='on', right='on', top='on',
                    )
     ax.minorticks_on()
-    ax.ticklabel_format(style='sci', useOffset=False)
     ax.locator_params(tight=True, nbins=4)
+    ax.set_xscale(xscale), ax.set_yscale(yscale)
 
     # set axis limits if specified
     if xlim is not None:
@@ -94,5 +97,4 @@ if __name__ == "__main__":
                   figureSize=(1,1), labelsize=3,
                   xlim=(-0.5, 1.5), ylim=(0.0, 1.0),
                   )
-    # ax.set_yscale('log')
     plt.show()

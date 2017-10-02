@@ -43,3 +43,14 @@ def calc_cummulative_dist(data, label=None, steps=None):
         yy = yy[idx]
     
     return xx, yy
+
+
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
+    print("testing function: calc_cummulative_dist")
+    testData = np.random.random(1000)
+    pltx, plty = calc_cummulative_dist(testData, steps=200)
+    plt.figure(figsize=(5, 5))
+    plt.plot(pltx, plty)
+    plt.show()

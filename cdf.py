@@ -9,10 +9,11 @@ from pygri.pltmath import calc_cummulative_dist
 
 def cdf(data,
         labels=None, labelsize='small',
-        figureSize=(3,3),
+        figureSize=(3, 3),
         cmap="Blues", steps=100,
         xlim=None, ylim=None,
         xscale="linear", yscale="linear",
+        linewidth=0.1,
         ):
     """
     description:
@@ -66,17 +67,20 @@ def cdf(data,
 
     for i, label in enumerate(labels):
         _pltx, _plty = calc_cummulative_dist(pltdata[:, i], steps=steps)
-        ax.plot(_pltx, _plty, color=clrs[i], label=label)
+        ax.plot(_pltx, _plty,
+                color=clrs[i],
+                label=label,
+                linewidth=linewidth,
+                )
 
     # formatting ticks to mimic GRI output
     ax.tick_params(direction='in',
-                   length=3, width=0.2,
                    labelsize=labelsize, pad=1,
                    which='both',
                    bottom='on', left='on', right='on', top='on',
                    )
     ax.minorticks_on()
-    ax.locator_params(tight=True, nbins=4)
+
     ax.set_xscale(xscale), ax.set_yscale(yscale)
 
     # set axis limits if specified

@@ -34,17 +34,15 @@ def calc_cummulative_dist(data, label=None, steps=None):
     if len(x) < 1:
         return [], []
 
+    # subsamping if steps is speficiied and the number is smaller than the
+    # total lenght of x
+    if (steps is not None) and len(x) > steps:
+        x = x[np.arange(0, len(x), int(np.ceil(len(x)/steps)))]
+
     # calculate the cumulative density
     xx = np.tile(x, (2, 1)).flatten(order='F')
     y = np.arange(len(x))
     yy = np.vstack((y, y+1)).flatten(order='F')/float(y[-1])
-
-    # subsamping if steps is speficiied and the number is smaller than the
-    # total lenght of x
-    if (steps is not None) and len(xx) > steps:
-        idx = np.arange(0, len(xx), int(np.ceil(len(xx)/steps)))
-        xx = xx[idx]
-        yy = yy[idx]
 
     return xx, yy
 
@@ -54,7 +52,7 @@ if __name__ == "__main__":
 
     print("testing function: calc_cummulative_dist")
     testData = np.random.random(1000)
-    pltx, plty = calc_cummulative_dist(testData, steps=200)
+    pltx, plty = calc_cummulative_dist(testData, steps=100)
     plt.figure(figsize=(5, 5))
     plt.plot(pltx, plty)
     plt.show()

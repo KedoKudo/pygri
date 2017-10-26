@@ -54,7 +54,12 @@ def cdf(data,
             column_nums = data.shape[1]
         except:
             column_nums = 1
-        labels = ["data_{}".format(i+1) for i in xrange(column_nums)]
+        # for quick array plot without labels, generate one for given data
+        if labels is None:
+            labels = ["data_{}".format(i+1) for i in xrange(column_nums)]
+        # mock the labels listobject, class_or_type_or_tuple
+        if isinstance(labels, str):
+            labels = [labels]
 
     # setting up figure
     fig = plt.figure(figsize=figureSize, dpi=300)
@@ -64,9 +69,12 @@ def cdf(data,
     if len(labels) > 1:
         cmap = plt.get_cmap(cmap)
         clrs = cmap(np.linspace(0.1, 0.9, len(labels)))
+    else:
+        clrs = 'k'
 
     for i, label in enumerate(labels):
-        _pltx, _plty = calc_cummulative_dist(pltdata[:, i], steps=steps)
+        _pltdata = pltdata[:, i] if len(labels) > 1 else pltdata
+        _pltx, _plty = calc_cummulative_dist(_pltdata, steps=steps)
         ax.plot(_pltx, _plty,
                 color=clrs[i],
                 label=label,
@@ -102,4 +110,9 @@ if __name__ == "__main__":
                   figureSize=(1,1), labelsize=3,
                   xlim=(-0.5, 1.5), ylim=(0.0, 1.0),
                   )
+    plt.show()
+
+    testArray = np.random.random(1000)
+    fig, ax = cdf(testArray, labels='testData')
+    ax.legend()
     plt.show()

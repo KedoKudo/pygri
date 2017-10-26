@@ -30,6 +30,10 @@ def calc_cummulative_dist(data, label=None, steps=None):
     else:
         x = np.sort(data)
 
+    # check if list empty
+    if len(x) < 1:
+        return [], []
+
     # calculate the cumulative density
     xx = np.tile(x, (2, 1)).flatten(order='F')
     y = np.arange(len(x))
@@ -37,8 +41,8 @@ def calc_cummulative_dist(data, label=None, steps=None):
 
     # subsamping if steps is speficiied and the number is smaller than the
     # total lenght of x
-    if (steps is not None) and len(x) > steps:
-        idx = np.arange(0, len(x), int(np.ceil(len(x)/steps)))
+    if (steps is not None) and len(xx) > steps:
+        idx = np.arange(0, len(xx), int(np.ceil(len(xx)/steps)))
         xx = xx[idx]
         yy = yy[idx]
 
